@@ -1,0 +1,15 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+
+alias ls='ls -Glas --color=auto'
+alias ll='ls -Ghlas --color=auto'
+
+export RAILS_ENV=<%= node['chef_environment']%>
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

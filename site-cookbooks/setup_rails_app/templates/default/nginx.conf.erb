@@ -1,0 +1,113 @@
+user <%= node[:commons][:deploy_user] %>;
+worker_processes  <%= node[:nginx][:worker_processes] %>;
+
+error_log  /var/log/nginx/error.log;
+pid        /var/run/nginx.pid;
+
+events {
+  worker_connections  1024;
+  multi_accept on;
+}
+
+http {
+
+  include       /etc/nginx/mime.types;
+  default_type  application/octet-stream;
+
+  access_log  /var/log/nginx/access.log;
+
+  sendfile on;
+  tcp_nopush on;
+  tcp_nodelay off;
+
+  keepalive_timeout  65;
+
+  gzip  on;
+  gzip_http_version 1.0;
+  gzip_comp_level 2;
+  gzip_proxied any;
+  gzip_vary off;
+  gzip_types text/plain text/css application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript application/json;
+  gzip_min_length  1000;
+  gzip_disable     "MSIE [1-6]\.";
+
+  server_names_hash_bucket_size <%= node[:nginx][:server_names_hash_bucket_size] %>;
+  types_hash_max_size <%= node[:nginx][:types_hash_max_size] %>;
+  types_hash_bucket_size <%= node[:nginx][:types_hash_bucket_size] %>;
+
+  upstream unicorn_<%= node[:commons][:application] %> {
+   server unix:/tmp/unicorn_<%= node[:commons][:application] %>.sock fail_timeout=<%= node[:nginx][:unicorn_fail_timeout] %>;
+  }
+
+  server {
+    listen 81; # ELB ping port
+    server_name _;
+    return 200;
+  }
+  
+  <% if node[:env][:application_short_base_url_redirect] %>
+  server {
+    listen 80;
+    server_name *.<%= node[:env][:application_short_base_url_redirect] %>;  # short url wildcard redirect
+    return 301 $scheme://<%= node[:env][:application_url] %>;
+  }
+  <% end %>  
+
+  <% if node[:env][:application_base_url_redirect] %>
+  server {
+    listen 80;
+    server_name <%= node[:env][:application_base_url_redirect] %>;
+    return 301 $scheme://<%= node[:env][:application_url] %>;
+  }
+  <% end %>
+
+  server {
+    listen 80;
+    server_name <%= node[:env][:application_url] %>;
+
+    access_log <%= node[:commons][:deploy_to] %>/shared/log/nginx.access.log;
+    error_log <%= node[:commons][:deploy_to] %>/shared/log/nginx.error.log;
+
+    keepalive_timeout <%= node[:nginx][:keepalive_timeout] %>;
+
+    root <%= node[:commons][:deploy_to] %>/current/public;
+
+    location ^~ /assets/ {
+            gzip_static on;
+            expires max;
+            add_header Cache-Control public;
+    }
+
+    try_files $uri/index.html $uri @unicorn;
+    location @unicorn {
+
+      proxy_redirect off;
+
+      proxy_set_header Host $http_host;
+      proxy_set_header X-Real-IP  $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+      proxy_set_header X-Forwarded-Proto $scheme;
+
+      client_max_body_size  <%= node[:nginx][:client_max_body_size] %>;
+      client_body_buffer_size  <%= node[:nginx][:client_body_buffer_size] %>;
+
+      proxy_connect_timeout <%= node[:nginx][:proxy_connect_timeout] %>;
+
+      proxy_send_timeout <%= node[:nginx][:proxy_send_timeout] %>;
+      proxy_read_timeout <%= node[:nginx][:proxy_read_timeout] %>;
+
+      proxy_buffer_size   <%= node[:nginx][:proxy_buffer_size] %>;
+      proxy_buffers   <%= node[:nginx][:proxy_buffers] %>;
+
+      proxy_busy_buffers_size   <%= node[:nginx][:proxy_busy_buffers_size] %>;
+      proxy_temp_file_write_size <%= node[:nginx][:proxy_temp_file_write_size] %>;
+
+
+      proxy_pass http://unicorn_<%= node[:commons][:application] %>;
+    }
+
+
+    error_page 500 502 503 504 /500.html;
+  }
+}

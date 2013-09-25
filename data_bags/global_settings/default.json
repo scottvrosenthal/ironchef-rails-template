@@ -1,0 +1,16 @@
+{
+"id": "default",
+"application" : "app-name",
+"ruby_version" : "ruby-2.0.0-p247",
+"rubygems_version" : "2.0.6",
+"rvm_gemset" : "app-name",
+"rvm_path" : "/home/deployer/.rvm",
+"deploy_user" : "deployer",
+"deploy_home" : "/home/deployer",
+"deploy_to" : "/home/deployer/sites/app-name",
+"s3_base_url" : "https://s3.amazonaws.com",
+"s3_base_host" : "s3.amazonaws.com",
+"aws_user" : "deployer",
+"aws_access_key_id" : "",
+"aws_secret_access_key" : ""
+}

@@ -1,0 +1,15 @@
+{
+"id": "production",
+"db_host" : "",
+"db_root_user" : "rdsuser",
+"db_root_password" : "",
+"db_app_database" : "",
+"db_app_user" : "rdsuser",
+"db_app_password" : "",
+"email_no_reply" : "",
+"application_url" : "www.app-url.com",
+"application_base_url_redirect" : "app-url.com",
+"application_short_base_url_redirect" : "app-short-url.com",
+"s3_bucket_uploads" : "app-name-production-uploads",
+"s3_bucket_static" : "app-name-production-static"
+}

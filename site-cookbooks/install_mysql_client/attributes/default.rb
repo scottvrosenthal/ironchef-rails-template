@@ -1,0 +1,1 @@
+default[:mysql][:version] = '5.6.13-1'

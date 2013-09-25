@@ -1,0 +1,10 @@
+json:
+  chef_environment: production
+
+roles:
+  - install_app_server
+
+recipes:
+
+server:
+  host: xxxxxxxxxx.compute-1.amazonaws.com
