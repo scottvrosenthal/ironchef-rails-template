@@ -10,6 +10,6 @@
 "application_url" : "www.app-url.com",
 "application_base_url_redirect" : "app-url.com",
 "application_short_base_url_redirect" : "app-short-url.com",
-"s3_bucket_uploads" : "app-name-production-uploads",
-"s3_bucket_static" : "app-name-production-static"
+"s3_bucket_private" : "app-name-production-private",
+"s3_bucket_public" : "app-name-production-public"
 }

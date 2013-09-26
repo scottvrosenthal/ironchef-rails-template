@@ -17,8 +17,8 @@ default[:env][:application_short_base_url_redirect] = env["application_short_bas
 
 ## aws ##
 
-default[:env][:s3_bucket_uploads] = env["s3_bucket_uploads"]
-default[:env][:s3_bucket_static] = env["s3_bucket_static"]
+default[:env][:s3_bucket_private] = env["s3_bucket_private"]
+default[:env][:s3_bucket_public] = env["s3_bucket_public"]
 
 default[:env][:s3_base_host] = gs_default["s3_base_host"]
 default[:env][:s3_base_url] = gs_default["s3_base_url"]
