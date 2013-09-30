@@ -6,10 +6,11 @@
 "db_app_database" : "",
 "db_app_user" : "rdsuser",
 "db_app_password" : "",
-"email_no_reply" : "",
-"application_url" : "staging.app-url.com",
-"application_url_redirect" : "staging1.app-url.com",
-"application_short_url_redirect" : "staging-short.app-url.com",
-"s3_bucket_private" : "app-name-production-private",
-"s3_bucket_public" : "app-name-production-public"
+"email_no_reply" : "noreply@app-url.com",
+"application_url" : "www.app-url.com",
+"application_wildcard_url" : "*.app-url.com",
+"application_base_url_redirect" : "app-url.com",
+"application_short_base_url_redirect" : "app-url-short.com",
+"s3_bucket_private" : "app-staging-private",
+"s3_bucket_public" : "app-staging-public"
 }
