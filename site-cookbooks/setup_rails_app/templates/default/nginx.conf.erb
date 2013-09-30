@@ -63,7 +63,11 @@ http {
 
   server {
     listen 80;
+    <% if node[:env][:application_wildcard_url].empty? %>
     server_name <%= node[:env][:application_url] %>;
+    <% else %>
+    server_name <%= node[:env][:application_wildcard_url] %>;
+    <% end %>
 
     access_log <%= node[:commons][:deploy_to] %>/shared/log/nginx.access.log;
     error_log <%= node[:commons][:deploy_to] %>/shared/log/nginx.error.log;
