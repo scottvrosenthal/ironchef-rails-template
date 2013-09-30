@@ -11,7 +11,10 @@ default[:db][:app_database] = env['db_app_database']
 default[:db][:app_user] = env['db_app_user']
 default[:db][:app_password] = env['db_app_password']
 
+default[:env][:email_no_reply] = env["email_no_reply"]
 default[:env][:application_url] = env["application_url"]
+default[:env][:application_wildcard_url] = env["application_wildcard_url"]
+
 default[:env][:application_base_url_redirect] = env["application_base_url_redirect"]
 default[:env][:application_short_base_url_redirect] = env["application_short_base_url_redirect"]
 
